@@ -23,7 +23,7 @@
 		<!-- Java EE / Java SE dependencies -->
 		<jsp.version>2.2</jsp.version>
 		<jstl.version>1.2</jstl.version>
-		<tomcat.servlet.version>7.0.30</tomcat.servlet.version>
+		<tomcat.servlet.version>7.0.56</tomcat.servlet.version>
 		<jaxb-impl.version>2.2.7</jaxb-impl.version>
 
 		<!-- Hibernate / JPA -->
@@ -62,7 +62,7 @@
 		<webjars-bootstrap.version>2.3.0</webjars-bootstrap.version>
 		<webjars-jquery-ui.version>1.10.3</webjars-jquery-ui.version>
 		<webjars-jquery.version>2.0.3-1</webjars-jquery.version>
-		<dandelion.version>0.10.1</dandelion.version>
+		<dandelion.version>0.10.2-SNAPSHOT</dandelion.version>
 
 		<mysql.version>5.1.22</mysql.version>
 
@@ -310,6 +310,16 @@
 			<artifactId>datatables-export-itext</artifactId>
 			<version>${dandelion.version}</version>
 		</dependency>
+    <dependency>
+      <groupId>com.github.dandelion</groupId>
+      <artifactId>dandelion-core</artifactId>
+      <version>${dandelion.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.dandelion</groupId>
+      <artifactId>dandelion-jsp</artifactId>
+      <version>${dandelion.version}</version>
+    </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -354,6 +364,7 @@
 
 	<!-- Maven plugin versions are mentioned in order to guarantee the build reproducibility in the long term -->
 	<build>
+    <finalName>${project.name}</finalName>
 		<defaultGoal>install</defaultGoal>
 		<testResources>
 		  <testResource>
@@ -393,10 +404,18 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.5</version>
 				<configuration>
-					<warName>petclinic</warName>
-				</configuration>
+          <warName>petclinic</warName>
+<!--          <webResources>
+            <resource>
+              <directory>${user.home}/.m2/repository/com/github/dandelion/dandelion-core/0.10.1-eg/</directory>
+              &lt;!&ndash;dandelion-core-0.10.1.jar&ndash;&gt;
+              <targetPath>WEB-INF/lib</targetPath>
+              <includes><include>*.jar</include></includes>
+            </resource>
+          </webResources>-->
+        </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -437,13 +456,20 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.0</version>
+				<version>2.2</version>
 				<configuration>
 					<server>tomcat-development-server</server>
 					<port>9966</port>
 					<path>/petclinic</path>
 				</configuration>
 			</plugin>
+      <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
+      <!-- To use, run: mvn wildfly:deploy -->
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.0.2.Final</version>
+      </plugin>
 		</plugins>
 	</build>
 
