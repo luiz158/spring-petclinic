@@ -16,13 +16,22 @@
 
 package org.springframework.samples.petclinic;
 
+import io.hypersistence.optimizer.HypersistenceOptimizer;
+import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.event.ChainEventHandler;
+import io.hypersistence.optimizer.core.event.ListEventHandler;
+import io.hypersistence.optimizer.core.event.LogEventHandler;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,6 +39,16 @@ public class PetclinicIntegrationTests {
 
     @Autowired
     private VetRepository vets;
+
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
+
+    @Before
+    public void init() {
+        new HypersistenceOptimizer(
+            new JpaConfig(entityManagerFactory)
+        ).init();
+    }
 
     @Test
     public void testFindAll() throws Exception {
