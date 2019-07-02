@@ -18,9 +18,6 @@ package org.springframework.samples.petclinic;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
-import io.hypersistence.optimizer.core.event.ChainEventHandler;
-import io.hypersistence.optimizer.core.event.ListEventHandler;
-import io.hypersistence.optimizer.core.event.LogEventHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,17 +28,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PetclinicIntegrationTests {
 
-    @Autowired
-    private VetRepository vets;
-
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    private VetRepository vets;
 
     @Before
     public void init() {
