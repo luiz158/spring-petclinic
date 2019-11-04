@@ -18,6 +18,9 @@ package org.springframework.samples.petclinic;
 
 import io.hypersistence.optimizer.HypersistenceOptimizer;
 import io.hypersistence.optimizer.core.config.JpaConfig;
+import io.hypersistence.optimizer.core.event.Event;
+import io.hypersistence.optimizer.core.event.EventFilter;
+import io.hypersistence.optimizer.hibernate.event.mapping.identifier.PostInsertGeneratorEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +48,9 @@ public class PetclinicIntegrationTests {
     public void init() {
         new HypersistenceOptimizer(
             new JpaConfig(entityManagerFactory)
+                .setEventFilter(
+                    event -> !(event instanceof PostInsertGeneratorEvent)
+                )
         ).init();
     }
 
