@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.vet.VetRepository;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +32,7 @@ import javax.persistence.PersistenceUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("mysql")
 public class PetclinicIntegrationTests {
 
     @PersistenceUnit
